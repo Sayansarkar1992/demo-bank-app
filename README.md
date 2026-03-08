@@ -16,6 +16,7 @@ Lightweight full-stack web app for UI + API automation testing.
 - Credit card operations: apply new card, upgrade card, download last statement, unbilled transactions, card controls, block/unblock card, real bill payment
 - Customer dashboard enhancements: notifications center, service request workflow, relationship/KYC indicators
 - Banking offer banners + popup ads (for UI automation of modal interactions)
+- Investment module with realistic options and full Shadow DOM + nested Shadow DOM widgets
 - File upload/download flows
 - Drag-and-drop component (Loan page)
 - Shadow DOM component (Loan page)
@@ -83,6 +84,11 @@ Free-tier note:
 - `GET /api/offers/active`
 - `GET /api/support/requests`
 - `POST /api/support/requests`
+
+### Investments (Bearer token)
+- `GET /api/investments/options`
+- `GET /api/investments/portfolio`
+- `POST /api/investments/calculator`
 
 ### Accounts (Bearer token)
 - `GET /api/accounts/summary`

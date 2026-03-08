@@ -192,6 +192,78 @@ const bankingOffers = [
   }
 ];
 
+const investmentData = {
+  options: [
+    {
+      id: 'INV-FD-001',
+      name: 'Fixed Deposit Plus',
+      type: 'Fixed Income',
+      risk: 'Low',
+      minAmount: 5000,
+      expectedAnnualReturnPct: 7.1,
+      lockInMonths: 12,
+      liquidity: 'Premature withdrawal allowed with penalty',
+      taxTreatment: 'Interest taxable as per slab'
+    },
+    {
+      id: 'INV-SIP-001',
+      name: 'Balanced Advantage SIP',
+      type: 'Mutual Fund',
+      risk: 'Moderate',
+      minAmount: 1000,
+      expectedAnnualReturnPct: 11.5,
+      lockInMonths: 0,
+      liquidity: 'T+2 redemption',
+      taxTreatment: 'Capital gains tax applicable'
+    },
+    {
+      id: 'INV-GSEC-001',
+      name: 'Govt Securities Basket',
+      type: 'Bonds',
+      risk: 'Low to Moderate',
+      minAmount: 10000,
+      expectedAnnualReturnPct: 7.8,
+      lockInMonths: 36,
+      liquidity: 'Tradable in secondary market',
+      taxTreatment: 'Interest taxable'
+    },
+    {
+      id: 'INV-ETF-001',
+      name: 'Nifty 50 ETF',
+      type: 'Equity ETF',
+      risk: 'Moderate to High',
+      minAmount: 500,
+      expectedAnnualReturnPct: 12.2,
+      lockInMonths: 0,
+      liquidity: 'Market hours liquidity',
+      taxTreatment: 'Capital gains tax applicable'
+    },
+    {
+      id: 'INV-GOLD-001',
+      name: 'Digital Gold Saver',
+      type: 'Commodity',
+      risk: 'Moderate',
+      minAmount: 100,
+      expectedAnnualReturnPct: 8.4,
+      lockInMonths: 0,
+      liquidity: 'Instant sellback supported',
+      taxTreatment: 'Capital gains tax applicable'
+    }
+  ],
+  portfolio: {
+    investedAmount: 385000,
+    currentValue: 424500,
+    profitLoss: 39500,
+    xirrPct: 10.8,
+    holdings: [
+      { instrument: 'Fixed Deposit Plus', type: 'Fixed Income', units: 1, invested: 150000, currentValue: 160650 },
+      { instrument: 'Balanced Advantage SIP', type: 'Mutual Fund', units: 210.11, invested: 90000, currentValue: 101500 },
+      { instrument: 'Nifty 50 ETF', type: 'Equity ETF', units: 128.2, invested: 75000, currentValue: 86200 },
+      { instrument: 'Digital Gold Saver', type: 'Commodity', units: 48.7, invested: 70000, currentValue: 76150 }
+    ]
+  }
+};
+
 function createToken() {
   return crypto.randomBytes(18).toString('hex');
 }
@@ -410,6 +482,27 @@ function validateServiceRequest(body) {
   return { errors, category, subject, description, priority };
 }
 
+function validateInvestmentCalculator(body) {
+  const errors = {};
+  const amount = Number(body.amount);
+  const annualRatePct = Number(body.annualRatePct);
+  const years = Number(body.years);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    errors.amount = 'Amount must be greater than 0.';
+  }
+
+  if (!Number.isFinite(annualRatePct) || annualRatePct <= 0 || annualRatePct > 30) {
+    errors.annualRatePct = 'Annual rate must be between 0 and 30.';
+  }
+
+  if (!Number.isFinite(years) || years <= 0 || years > 40) {
+    errors.years = 'Years must be between 1 and 40.';
+  }
+
+  return { errors, amount, annualRatePct, years };
+}
+
 function createAccountTransaction(accountKey, type, amount, narration) {
   const account = accountData[accountKey];
   const prefix = accountKey === 'savings' ? 'S' : 'C';
@@ -615,6 +708,39 @@ app.get('/api/offers/active', authMiddleware, (_req, res) => {
   res.json({
     asOf: new Date().toISOString(),
     offers: bankingOffers
+  });
+});
+
+app.get('/api/investments/options', authMiddleware, (_req, res) => {
+  res.json({
+    asOf: new Date().toISOString(),
+    options: investmentData.options
+  });
+});
+
+app.get('/api/investments/portfolio', authMiddleware, (_req, res) => {
+  res.json({
+    asOf: new Date().toISOString(),
+    ...investmentData.portfolio
+  });
+});
+
+app.post('/api/investments/calculator', authMiddleware, (req, res) => {
+  const { errors, amount, annualRatePct, years } = validateInvestmentCalculator(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  const projectedValue = Number((amount * Math.pow(1 + annualRatePct / 100, years)).toFixed(2));
+  const projectedGain = Number((projectedValue - amount).toFixed(2));
+
+  return res.json({
+    message: 'Projection calculated.',
+    input: { amount, annualRatePct, years },
+    projection: {
+      projectedValue,
+      projectedGain
+    }
   });
 });
 
@@ -1115,6 +1241,35 @@ app.post('/api/loans/apply', authMiddleware, (req, res) => {
     message: 'Loan application submitted.',
     application: newLoan
   });
+});
+
+app.get('/under-maintenance', (_req, res) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Retry-After', '600');
+  return res.status(503).send(`<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Under Maintenance</title>
+    <style>
+      body { margin: 0; background: #f5f7fb; font-family: Arial, sans-serif; color: #1f2d3d; }
+      main { max-width: 680px; margin: 48px auto; background: #fff; border: 1px solid #d8dfef; border-radius: 10px; padding: 18px; }
+      h1 { margin-top: 0; }
+      .code { display: inline-block; background: #fce8e6; color: #8a1f11; border: 1px solid #f2c1bd; padding: 4px 10px; border-radius: 999px; font-weight: 700; }
+      a { color: #0a66c2; }
+    </style>
+  </head>
+  <body>
+    <main data-testid="under-maintenance-page">
+      <span class="code" data-testid="maintenance-status-code">503 Service Unavailable</span>
+      <h1>Under Maintenance</h1>
+      <p>This module is temporarily unavailable while scheduled maintenance is in progress.</p>
+      <p>Please retry after a few minutes.</p>
+      <p><a href="/home.html">Return to Home</a></p>
+    </main>
+  </body>
+</html>`);
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

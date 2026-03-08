@@ -16,6 +16,7 @@
     { "name": "Customer" },
     { "name": "Support" },
     { "name": "Offers" },
+    { "name": "Investments" },
     { "name": "Accounts" },
     { "name": "Cards" },
     { "name": "Loans" },
@@ -143,6 +144,15 @@
           "subject": { "type": "string", "example": "Unable to add beneficiary" },
           "description": { "type": "string", "example": "Error appears while adding beneficiary account." },
           "priority": { "type": "string", "example": "NORMAL", "enum": ["LOW", "NORMAL", "HIGH"] }
+        }
+      },
+      "InvestmentCalculatorRequest": {
+        "type": "object",
+        "required": ["amount", "annualRatePct", "years"],
+        "properties": {
+          "amount": { "type": "number", "example": 100000 },
+          "annualRatePct": { "type": "number", "example": 10.5 },
+          "years": { "type": "number", "example": 5 }
         }
       }
     }
@@ -310,6 +320,50 @@
         "security": [{ "bearerAuth": [] }],
         "responses": {
           "200": { "description": "Offers returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/api/investments/options": {
+      "get": {
+        "tags": ["Investments"],
+        "summary": "Get realistic investment options",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Investment options returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/api/investments/portfolio": {
+      "get": {
+        "tags": ["Investments"],
+        "summary": "Get investment portfolio snapshot",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Portfolio snapshot returned" },
+          "401": { "description": "Unauthorized" }
+        }
+      }
+    },
+    "/api/investments/calculator": {
+      "post": {
+        "tags": ["Investments"],
+        "summary": "Project maturity value for an investment",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvestmentCalculatorRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Projection calculated" },
+          "400": { "description": "Validation failed" },
           "401": { "description": "Unauthorized" }
         }
       }
