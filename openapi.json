@@ -3,7 +3,7 @@
   "info": {
     "title": "Demo Bank API",
     "description": "Lightweight API set for UI/API automation testing of a demo banking app.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -11,17 +11,48 @@
     }
   ],
   "tags": [
-    { "name": "Health" },
-    { "name": "Auth" },
-    { "name": "Customer" },
-    { "name": "Support" },
-    { "name": "Offers" },
-    { "name": "Investments" },
-    { "name": "Accounts" },
-    { "name": "Cards" },
-    { "name": "Loans" },
-    { "name": "Files" },
-    { "name": "Testing" }
+    {
+      "name": "Accounts"
+    },
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Cards"
+    },
+    {
+      "name": "Customer"
+    },
+    {
+      "name": "Files"
+    },
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Investments"
+    },
+    {
+      "name": "KYC"
+    },
+    {
+      "name": "Loans"
+    },
+    {
+      "name": "Offers"
+    },
+    {
+      "name": "Payments"
+    },
+    {
+      "name": "Settings"
+    },
+    {
+      "name": "Support"
+    },
+    {
+      "name": "Testing"
+    }
   ],
   "components": {
     "securitySchemes": {
@@ -35,28 +66,49 @@
       "ApiMessage": {
         "type": "object",
         "properties": {
-          "message": { "type": "string" }
+          "message": {
+            "type": "string"
+          }
         }
       },
       "LoginRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
-          "email": { "type": "string", "example": "demo@bank.test" },
-          "password": { "type": "string", "example": "Demo@123" }
+          "email": {
+            "type": "string",
+            "example": "demo@bank.test"
+          },
+          "password": {
+            "type": "string",
+            "example": "Demo@123"
+          }
         }
       },
       "RegisterResponse": {
         "type": "object",
         "properties": {
-          "message": { "type": "string" },
+          "message": {
+            "type": "string"
+          },
           "user": {
             "type": "object",
             "properties": {
-              "id": { "type": "string" },
-              "fullName": { "type": "string" },
-              "email": { "type": "string" },
-              "phone": { "type": "string" }
+              "id": {
+                "type": "string"
+              },
+              "fullName": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              }
             }
           }
         }
@@ -64,103 +116,1323 @@
       "AccountSummary": {
         "type": "object",
         "properties": {
-          "savings": { "type": "object" },
-          "current": { "type": "object" },
-          "loan": { "type": "object" },
-          "creditCard": { "type": "object" }
+          "savings": {
+            "type": "object"
+          },
+          "current": {
+            "type": "object"
+          },
+          "loan": {
+            "type": "object"
+          },
+          "creditCard": {
+            "type": "object"
+          },
+          "debitCard": {
+            "type": "object"
+          }
         }
       },
       "LoanApplyRequest": {
         "type": "object",
-        "required": ["amount", "tenureMonths", "purpose"],
+        "required": [
+          "amount",
+          "tenureMonths",
+          "purpose"
+        ],
         "properties": {
-          "loanType": { "type": "string", "example": "Personal Loan" },
-          "amount": { "type": "number", "example": 250000 },
-          "tenureMonths": { "type": "integer", "example": 24 },
-          "purpose": { "type": "string", "example": "Medical emergency" }
+          "loanType": {
+            "type": "string",
+            "example": "Personal Loan"
+          },
+          "amount": {
+            "type": "number",
+            "example": 250000
+          },
+          "tenureMonths": {
+            "type": "integer",
+            "example": 24
+          },
+          "purpose": {
+            "type": "string",
+            "example": "Medical emergency"
+          }
         }
       },
       "AccountTransactionRequest": {
         "type": "object",
-        "required": ["amount"],
+        "required": [
+          "amount"
+        ],
         "properties": {
-          "amount": { "type": "number", "example": 1000 },
-          "narration": { "type": "string", "example": "Cash deposit" }
+          "amount": {
+            "type": "number",
+            "example": 1000
+          },
+          "narration": {
+            "type": "string",
+            "example": "Cash deposit"
+          }
         }
       },
       "CreditCardApplyRequest": {
         "type": "object",
-        "required": ["requestedCardType", "monthlyIncome", "employmentType"],
+        "required": [
+          "requestedCardType",
+          "monthlyIncome",
+          "employmentType"
+        ],
         "properties": {
-          "requestedCardType": { "type": "string", "example": "Gold" },
-          "monthlyIncome": { "type": "number", "example": 55000 },
-          "employmentType": { "type": "string", "example": "Salaried" }
+          "requestedCardType": {
+            "type": "string",
+            "example": "Gold"
+          },
+          "monthlyIncome": {
+            "type": "number",
+            "example": 55000
+          },
+          "employmentType": {
+            "type": "string",
+            "example": "Salaried"
+          }
         }
       },
       "CreditCardUpgradeRequest": {
         "type": "object",
-        "required": ["targetVariant"],
+        "required": [
+          "targetVariant"
+        ],
         "properties": {
-          "targetVariant": { "type": "string", "example": "Signature" }
+          "targetVariant": {
+            "type": "string",
+            "example": "Signature"
+          }
         }
       },
       "CardControlsUpdateRequest": {
         "type": "object",
-        "required": ["onlineTransactions", "contactlessPayments", "internationalUsage", "atmCashWithdrawal"],
+        "required": [
+          "onlineTransactions",
+          "contactlessPayments",
+          "internationalUsage",
+          "atmCashWithdrawal"
+        ],
         "properties": {
-          "onlineTransactions": { "type": "boolean", "example": true },
-          "contactlessPayments": { "type": "boolean", "example": true },
-          "internationalUsage": { "type": "boolean", "example": false },
-          "atmCashWithdrawal": { "type": "boolean", "example": true }
+          "onlineTransactions": {
+            "type": "boolean",
+            "example": true
+          },
+          "contactlessPayments": {
+            "type": "boolean",
+            "example": true
+          },
+          "internationalUsage": {
+            "type": "boolean",
+            "example": false
+          },
+          "atmCashWithdrawal": {
+            "type": "boolean",
+            "example": true
+          }
         }
       },
       "CreditCardBlockRequest": {
         "type": "object",
-        "required": ["reason"],
+        "required": [
+          "reason"
+        ],
         "properties": {
-          "reason": { "type": "string", "example": "Card misplaced while travelling" }
+          "reason": {
+            "type": "string",
+            "example": "Card misplaced while travelling"
+          }
         }
       },
       "CreditCardUnblockRequest": {
         "type": "object",
-        "required": ["otp"],
+        "required": [
+          "otp"
+        ],
         "properties": {
-          "otp": { "type": "string", "example": "123456" }
+          "otp": {
+            "type": "string",
+            "example": "123456"
+          }
         }
       },
       "CreditCardBillPaymentRequest": {
         "type": "object",
-        "required": ["amount"],
+        "required": [
+          "amount"
+        ],
         "properties": {
-          "amount": { "type": "number", "example": 2500 },
-          "source": { "type": "string", "example": "Savings Account via UPI" }
+          "amount": {
+            "type": "number",
+            "example": 2500
+          },
+          "source": {
+            "type": "string",
+            "example": "Savings Account via UPI"
+          }
         }
       },
       "ServiceRequestCreateRequest": {
         "type": "object",
-        "required": ["category", "subject", "description", "priority"],
+        "required": [
+          "category",
+          "subject",
+          "description",
+          "priority"
+        ],
         "properties": {
-          "category": { "type": "string", "example": "Net Banking" },
-          "subject": { "type": "string", "example": "Unable to add beneficiary" },
-          "description": { "type": "string", "example": "Error appears while adding beneficiary account." },
-          "priority": { "type": "string", "example": "NORMAL", "enum": ["LOW", "NORMAL", "HIGH"] }
+          "category": {
+            "type": "string",
+            "example": "Net Banking"
+          },
+          "subject": {
+            "type": "string",
+            "example": "Unable to add beneficiary"
+          },
+          "description": {
+            "type": "string",
+            "example": "Error appears while adding beneficiary account."
+          },
+          "priority": {
+            "type": "string",
+            "example": "NORMAL",
+            "enum": [
+              "LOW",
+              "NORMAL",
+              "HIGH"
+            ]
+          }
         }
       },
       "InvestmentCalculatorRequest": {
         "type": "object",
-        "required": ["amount", "annualRatePct", "years"],
+        "required": [
+          "amount",
+          "annualRatePct",
+          "years"
+        ],
         "properties": {
-          "amount": { "type": "number", "example": 100000 },
-          "annualRatePct": { "type": "number", "example": 10.5 },
-          "years": { "type": "number", "example": 5 }
+          "amount": {
+            "type": "number",
+            "example": 100000
+          },
+          "annualRatePct": {
+            "type": "number",
+            "example": 10.5
+          },
+          "years": {
+            "type": "number",
+            "example": 5
+          }
+        }
+      },
+      "PaymentTransferRequest": {
+        "type": "object",
+        "required": [
+          "beneficiaryId",
+          "amount",
+          "mode"
+        ],
+        "properties": {
+          "beneficiaryId": {
+            "type": "string",
+            "example": "BEN-001"
+          },
+          "amount": {
+            "type": "number",
+            "example": 2500
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "IMPS",
+              "NEFT",
+              "RTGS",
+              "UPI"
+            ],
+            "example": "IMPS"
+          },
+          "note": {
+            "type": "string",
+            "example": "Monthly transfer"
+          }
+        }
+      },
+      "SupportNoteRequest": {
+        "type": "object",
+        "required": [
+          "category",
+          "subject",
+          "note"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "example": "Payments"
+          },
+          "subject": {
+            "type": "string",
+            "example": "IMPS transfer issue"
+          },
+          "note": {
+            "type": "string",
+            "example": "Transfer failed but amount debited from account."
+          }
+        }
+      },
+      "DebitCardControlsUpdateRequest": {
+        "type": "object",
+        "required": [
+          "onlineTransactions",
+          "contactlessPayments",
+          "internationalUsage",
+          "atmCashWithdrawal",
+          "dailyAtmLimit",
+          "dailyPosLimit"
+        ],
+        "properties": {
+          "onlineTransactions": {
+            "type": "boolean",
+            "example": true
+          },
+          "contactlessPayments": {
+            "type": "boolean",
+            "example": true
+          },
+          "internationalUsage": {
+            "type": "boolean",
+            "example": false
+          },
+          "atmCashWithdrawal": {
+            "type": "boolean",
+            "example": true
+          },
+          "dailyAtmLimit": {
+            "type": "number",
+            "example": 25000
+          },
+          "dailyPosLimit": {
+            "type": "number",
+            "example": 75000
+          }
+        }
+      },
+      "SettingsUpdateRequest": {
+        "type": "object",
+        "required": [
+          "communication",
+          "security",
+          "preferences"
+        ],
+        "properties": {
+          "communication": {
+            "type": "object",
+            "required": [
+              "emailAlerts",
+              "smsAlerts",
+              "pushAlerts",
+              "marketingOffers"
+            ],
+            "properties": {
+              "emailAlerts": {
+                "type": "boolean",
+                "example": true
+              },
+              "smsAlerts": {
+                "type": "boolean",
+                "example": true
+              },
+              "pushAlerts": {
+                "type": "boolean",
+                "example": true
+              },
+              "marketingOffers": {
+                "type": "boolean",
+                "example": false
+              }
+            }
+          },
+          "security": {
+            "type": "object",
+            "required": [
+              "twoFactorAuth",
+              "loginAlerts",
+              "transactionOtp",
+              "biometricEnabled"
+            ],
+            "properties": {
+              "twoFactorAuth": {
+                "type": "boolean",
+                "example": true
+              },
+              "loginAlerts": {
+                "type": "boolean",
+                "example": true
+              },
+              "transactionOtp": {
+                "type": "boolean",
+                "example": true
+              },
+              "biometricEnabled": {
+                "type": "boolean",
+                "example": false
+              }
+            }
+          },
+          "preferences": {
+            "type": "object",
+            "required": [
+              "language",
+              "statementDelivery",
+              "defaultAccount"
+            ],
+            "properties": {
+              "language": {
+                "type": "string",
+                "enum": [
+                  "English",
+                  "Hindi",
+                  "Bengali",
+                  "Tamil"
+                ],
+                "example": "English"
+              },
+              "statementDelivery": {
+                "type": "string",
+                "enum": [
+                  "Email",
+                  "SMS",
+                  "Both"
+                ],
+                "example": "Email"
+              },
+              "defaultAccount": {
+                "type": "string",
+                "enum": [
+                  "Savings",
+                  "Current"
+                ],
+                "example": "Savings"
+              }
+            }
+          }
         }
       }
     }
   },
   "paths": {
+    "/api/accounts/current": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get current account details",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/current/deposit": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Deposit amount in current account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Deposit successful"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/current/passbook": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Download current account passbook CSV",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV download"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/current/withdraw": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Withdraw amount from current account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Withdraw successful"
+          },
+          "400": {
+            "description": "Validation/overdraft limit exceeded"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/savings": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get savings account details",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Savings returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/savings/deposit": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Deposit amount in savings account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Deposit successful"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/savings/passbook": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Download savings passbook CSV",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV download"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/savings/withdraw": {
+      "post": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Withdraw amount from savings account",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountTransactionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Withdraw successful"
+          },
+          "400": {
+            "description": "Validation/insufficient balance"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/accounts/summary": {
+      "get": {
+        "tags": [
+          "Accounts"
+        ],
+        "summary": "Get account summary",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Summary returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountSummary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/demo-login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Sign in as demo user",
+        "responses": {
+          "200": {
+            "description": "Demo login success"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login with email/password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login success"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Get logged in user profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a user (supports document upload)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "fullName",
+                  "email",
+                  "password",
+                  "phone"
+                ],
+                "properties": {
+                  "fullName": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "document": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "409": {
+            "description": "User exists"
+          }
+        }
+      }
+    },
+    "/api/cards/credit": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Get credit card details",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Credit card returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/apply": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Apply for a new credit card",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardApplyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Application submitted"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "423": {
+            "description": "Card service locked (blocked card)"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/block": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Block active credit card",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardBlockRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Card blocked"
+          },
+          "400": {
+            "description": "Validation failed / already blocked"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/controls": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Get card controls",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Card controls returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Update card controls",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardControlsUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Card controls updated"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "423": {
+            "description": "Card service locked (blocked card)"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/pay-bill": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Pay credit card bill amount",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardBillPaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bill payment successful"
+          },
+          "400": {
+            "description": "Validation failed / exceeds due amount"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "423": {
+            "description": "Card blocked"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/statement/latest": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Download latest card statement CSV",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statement CSV download"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/unbilled-transactions": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Get unbilled transactions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unbilled transactions returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/unblock": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Unblock blocked credit card using OTP",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardUnblockRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Card unblocked"
+          },
+          "400": {
+            "description": "Validation failed / already active"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/credit/upgrade": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Upgrade the active credit card",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardUpgradeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Upgrade successful"
+          },
+          "400": {
+            "description": "Validation/eligibility failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "423": {
+            "description": "Card service locked (blocked card)"
+          }
+        }
+      }
+    },
+    "/api/cards/debit": {
+      "get": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Get debit card details",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Debit card details fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/debit/block": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Block debit card",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardBlockRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Debit card blocked"
+          },
+          "400": {
+            "description": "Validation failed or already blocked"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/cards/debit/controls": {
+      "put": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Update debit card controls and limits",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DebitCardControlsUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Debit card controls updated"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "423": {
+            "description": "Card is blocked"
+          }
+        }
+      }
+    },
+    "/api/cards/debit/unblock": {
+      "post": {
+        "tags": [
+          "Cards"
+        ],
+        "summary": "Unblock debit card",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardUnblockRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Debit card unblocked"
+          },
+          "400": {
+            "description": "Validation failed or already active"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/customer/dashboard": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Get customer dashboard profile and counters",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard data returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/files/download/{filename}": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Download uploaded file",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File download"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/files/list": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "List uploaded files",
+        "responses": {
+          "200": {
+            "description": "File list"
+          }
+        }
+      }
+    },
+    "/api/files/template": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Download sample registration template",
+        "responses": {
+          "200": {
+            "description": "Template download"
+          }
+        }
+      }
+    },
+    "/api/files/upload": {
+      "post": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Upload any file",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "File uploaded"
+          },
+          "400": {
+            "description": "Missing file"
+          }
+        }
+      }
+    },
     "/api/health": {
       "get": {
-        "tags": ["Health"],
+        "tags": [
+          "Health"
+        ],
         "summary": "Health check",
         "responses": {
           "200": {
@@ -169,9 +1441,574 @@
         }
       }
     },
+    "/api/investments/calculator": {
+      "post": {
+        "tags": [
+          "Investments"
+        ],
+        "summary": "Project maturity value for an investment",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvestmentCalculatorRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Projection calculated"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/investments/options": {
+      "get": {
+        "tags": [
+          "Investments"
+        ],
+        "summary": "Get realistic investment options",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Investment options returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/investments/portfolio": {
+      "get": {
+        "tags": [
+          "Investments"
+        ],
+        "summary": "Get investment portfolio snapshot",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Portfolio snapshot returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/kyc/status": {
+      "get": {
+        "tags": [
+          "KYC"
+        ],
+        "summary": "Fetch KYC status and last submission",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "KYC status fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/kyc/update": {
+      "post": {
+        "tags": [
+          "KYC"
+        ],
+        "summary": "Submit KYC update with document and current PNG photo",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "kycDocument",
+                  "currentPhoto"
+                ],
+                "properties": {
+                  "kycDocument": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "currentPhoto": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "PNG file expected"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "KYC update submitted"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/loans": {
+      "get": {
+        "tags": [
+          "Loans"
+        ],
+        "summary": "Get loan accounts and offers",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Loan details returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/loans/apply": {
+      "post": {
+        "tags": [
+          "Loans"
+        ],
+        "summary": "Apply for a loan",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanApplyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Loan submitted"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Get notifications for the logged-in customer",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/notifications/{id}/read": {
+      "post": {
+        "tags": [
+          "Customer"
+        ],
+        "summary": "Mark one notification as read",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification marked as read"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Notification not found"
+          }
+        }
+      }
+    },
+    "/api/offers/active": {
+      "get": {
+        "tags": [
+          "Offers"
+        ],
+        "summary": "Get active banking offers for banners/popups",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Offers returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/payments/beneficiaries": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "List payment beneficiaries",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Beneficiaries fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/payments/history": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Fetch payment transfer history",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment history fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/payments/transfer": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Transfer funds to beneficiary",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentTransferRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Payment successful"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/settings": {
+      "get": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Get customer settings",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Settings fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Settings"
+        ],
+        "summary": "Update customer settings",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Settings updated"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/support/drop-note": {
+      "post": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "Submit support note",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SupportNoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Support note submitted"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/support/faqs": {
+      "get": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "List FAQs for support journeys",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "FAQ list fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/support/notes": {
+      "get": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "List submitted support notes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Support notes fetched"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/support/requests": {
+      "get": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "Get service requests",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Service requests returned"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Support"
+        ],
+        "summary": "Create service request",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ServiceRequestCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Service request created"
+          },
+          "400": {
+            "description": "Validation failed"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/testing/delay/{ms}": {
+      "get": {
+        "tags": [
+          "Testing"
+        ],
+        "summary": "Return a delayed response for timeout/retry testing",
+        "parameters": [
+          {
+            "name": "ms",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delayed response returned"
+          },
+          "400": {
+            "description": "Invalid delay value"
+          }
+        }
+      }
+    },
     "/api/testing/echo": {
       "post": {
-        "tags": ["Testing"],
+        "tags": [
+          "Testing"
+        ],
         "summary": "Echo request payload, headers, query and method",
         "requestBody": {
           "required": false,
@@ -193,676 +2030,32 @@
     },
     "/api/testing/status/{code}": {
       "get": {
-        "tags": ["Testing"],
+        "tags": [
+          "Testing"
+        ],
         "summary": "Force any HTTP status code between 100 and 599",
         "parameters": [
           {
             "name": "code",
             "in": "path",
             "required": true,
-            "schema": { "type": "integer", "minimum": 100, "maximum": 599 }
+            "schema": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            }
           }
         ],
-        "responses": {
-          "200": { "description": "Forced status (2xx case)" },
-          "400": { "description": "Invalid status code" },
-          "500": { "description": "Forced status (5xx case)" }
-        }
-      }
-    },
-    "/api/testing/delay/{ms}": {
-      "get": {
-        "tags": ["Testing"],
-        "summary": "Return a delayed response for timeout/retry testing",
-        "parameters": [
-          {
-            "name": "ms",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer", "minimum": 0, "maximum": 5000 }
-          }
-        ],
-        "responses": {
-          "200": { "description": "Delayed response returned" },
-          "400": { "description": "Invalid delay value" }
-        }
-      }
-    },
-    "/api/auth/demo-login": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Sign in as demo user",
         "responses": {
           "200": {
-            "description": "Demo login success"
-          }
-        }
-      }
-    },
-    "/api/auth/login": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Login with email/password",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Login success" },
-          "400": { "description": "Validation error" },
-          "401": { "description": "Invalid credentials" }
-        }
-      }
-    },
-    "/api/auth/me": {
-      "get": {
-        "tags": ["Auth"],
-        "summary": "Get logged in user profile",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Profile returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/customer/dashboard": {
-      "get": {
-        "tags": ["Customer"],
-        "summary": "Get customer dashboard profile and counters",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Dashboard data returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/notifications": {
-      "get": {
-        "tags": ["Customer"],
-        "summary": "Get notifications for the logged-in customer",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Notifications returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/notifications/{id}/read": {
-      "post": {
-        "tags": ["Customer"],
-        "summary": "Mark one notification as read",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": { "description": "Notification marked as read" },
-          "404": { "description": "Notification not found" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/offers/active": {
-      "get": {
-        "tags": ["Offers"],
-        "summary": "Get active banking offers for banners/popups",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Offers returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/investments/options": {
-      "get": {
-        "tags": ["Investments"],
-        "summary": "Get realistic investment options",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Investment options returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/investments/portfolio": {
-      "get": {
-        "tags": ["Investments"],
-        "summary": "Get investment portfolio snapshot",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Portfolio snapshot returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/investments/calculator": {
-      "post": {
-        "tags": ["Investments"],
-        "summary": "Project maturity value for an investment",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InvestmentCalculatorRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Projection calculated" },
-          "400": { "description": "Validation failed" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/support/requests": {
-      "get": {
-        "tags": ["Support"],
-        "summary": "Get service requests",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Service requests returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      },
-      "post": {
-        "tags": ["Support"],
-        "summary": "Create service request",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ServiceRequestCreateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Service request created" },
-          "400": { "description": "Validation failed" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/auth/register": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Register a user (supports document upload)",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": ["fullName", "email", "password", "phone"],
-                "properties": {
-                  "fullName": { "type": "string" },
-                  "email": { "type": "string" },
-                  "password": { "type": "string" },
-                  "phone": { "type": "string" },
-                  "document": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "User created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegisterResponse"
-                }
-              }
-            }
+            "description": "Forced status (2xx case)"
           },
-          "400": { "description": "Validation failed" },
-          "409": { "description": "User exists" }
-        }
-      }
-    },
-    "/api/files/upload": {
-      "post": {
-        "tags": ["Files"],
-        "summary": "Upload any file",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": ["file"],
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "File uploaded" },
-          "400": { "description": "Missing file" }
-        }
-      }
-    },
-    "/api/files/list": {
-      "get": {
-        "tags": ["Files"],
-        "summary": "List uploaded files",
-        "responses": {
-          "200": { "description": "File list" }
-        }
-      }
-    },
-    "/api/files/download/{filename}": {
-      "get": {
-        "tags": ["Files"],
-        "summary": "Download uploaded file",
-        "parameters": [
-          {
-            "name": "filename",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": { "description": "File download" },
-          "404": { "description": "Not found" }
-        }
-      }
-    },
-    "/api/files/template": {
-      "get": {
-        "tags": ["Files"],
-        "summary": "Download sample registration template",
-        "responses": {
-          "200": { "description": "Template download" }
-        }
-      }
-    },
-    "/api/accounts/summary": {
-      "get": {
-        "tags": ["Accounts"],
-        "summary": "Get account summary",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": {
-            "description": "Summary returned",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccountSummary"
-                }
-              }
-            }
+          "400": {
+            "description": "Invalid status code"
           },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/savings": {
-      "get": {
-        "tags": ["Accounts"],
-        "summary": "Get savings account details",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Savings returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/savings/deposit": {
-      "post": {
-        "tags": ["Accounts"],
-        "summary": "Deposit amount in savings account",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccountTransactionRequest"
-              }
-            }
+          "500": {
+            "description": "Forced status (5xx case)"
           }
-        },
-        "responses": {
-          "201": { "description": "Deposit successful" },
-          "400": { "description": "Validation failed" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/savings/withdraw": {
-      "post": {
-        "tags": ["Accounts"],
-        "summary": "Withdraw amount from savings account",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccountTransactionRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Withdraw successful" },
-          "400": { "description": "Validation/insufficient balance" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/savings/passbook": {
-      "get": {
-        "tags": ["Accounts"],
-        "summary": "Download savings passbook CSV",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "CSV download" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/current": {
-      "get": {
-        "tags": ["Accounts"],
-        "summary": "Get current account details",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Current returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/current/deposit": {
-      "post": {
-        "tags": ["Accounts"],
-        "summary": "Deposit amount in current account",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccountTransactionRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Deposit successful" },
-          "400": { "description": "Validation failed" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/current/withdraw": {
-      "post": {
-        "tags": ["Accounts"],
-        "summary": "Withdraw amount from current account",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AccountTransactionRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Withdraw successful" },
-          "400": { "description": "Validation/overdraft limit exceeded" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/accounts/current/passbook": {
-      "get": {
-        "tags": ["Accounts"],
-        "summary": "Download current account passbook CSV",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "CSV download" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit": {
-      "get": {
-        "tags": ["Cards"],
-        "summary": "Get credit card details",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Credit card returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/apply": {
-      "post": {
-        "tags": ["Cards"],
-        "summary": "Apply for a new credit card",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreditCardApplyRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Application submitted" },
-          "400": { "description": "Validation failed" },
-          "423": { "description": "Card service locked (blocked card)" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/upgrade": {
-      "post": {
-        "tags": ["Cards"],
-        "summary": "Upgrade the active credit card",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreditCardUpgradeRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Upgrade successful" },
-          "400": { "description": "Validation/eligibility failed" },
-          "423": { "description": "Card service locked (blocked card)" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/statement/latest": {
-      "get": {
-        "tags": ["Cards"],
-        "summary": "Download latest card statement CSV",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Statement CSV download" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/unbilled-transactions": {
-      "get": {
-        "tags": ["Cards"],
-        "summary": "Get unbilled transactions",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Unbilled transactions returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/controls": {
-      "get": {
-        "tags": ["Cards"],
-        "summary": "Get card controls",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Card controls returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      },
-      "put": {
-        "tags": ["Cards"],
-        "summary": "Update card controls",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CardControlsUpdateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Card controls updated" },
-          "400": { "description": "Validation failed" },
-          "423": { "description": "Card service locked (blocked card)" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/block": {
-      "post": {
-        "tags": ["Cards"],
-        "summary": "Block active credit card",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreditCardBlockRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Card blocked" },
-          "400": { "description": "Validation failed / already blocked" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/unblock": {
-      "post": {
-        "tags": ["Cards"],
-        "summary": "Unblock blocked credit card using OTP",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreditCardUnblockRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": { "description": "Card unblocked" },
-          "400": { "description": "Validation failed / already active" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/cards/credit/pay-bill": {
-      "post": {
-        "tags": ["Cards"],
-        "summary": "Pay credit card bill amount",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreditCardBillPaymentRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Bill payment successful" },
-          "400": { "description": "Validation failed / exceeds due amount" },
-          "423": { "description": "Card blocked" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/loans": {
-      "get": {
-        "tags": ["Loans"],
-        "summary": "Get loan accounts and offers",
-        "security": [{ "bearerAuth": [] }],
-        "responses": {
-          "200": { "description": "Loan details returned" },
-          "401": { "description": "Unauthorized" }
-        }
-      }
-    },
-    "/api/loans/apply": {
-      "post": {
-        "tags": ["Loans"],
-        "summary": "Apply for a loan",
-        "security": [{ "bearerAuth": [] }],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoanApplyRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": { "description": "Loan submitted" },
-          "400": { "description": "Validation failed" },
-          "401": { "description": "Unauthorized" }
         }
       }
     }

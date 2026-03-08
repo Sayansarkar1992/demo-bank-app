@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Settings</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="settings-title">Settings</h1>
+      <small>Profile preferences and KYC update</small>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="settings-back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="settings-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="kyc-status-panel">
+        <h2>KYC Status</h2>
+        <div class="grid">
+          <div class="card"><div class="muted">Current Status</div><strong id="kycStatus"></strong></div>
+          <div class="card"><div class="muted">Profile Completion</div><strong id="kycProfileCompletion"></strong></div>
+          <div class="card"><div class="muted">Last Submission</div><strong id="kycLastSubmission"></strong></div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="kyc-update-panel">
+        <h2>KYC Update</h2>
+        <form id="kycForm" enctype="multipart/form-data">
+          <label for="kycDocument">KYC Soft Copy Upload</label>
+          <input id="kycDocument" type="file" data-testid="kyc-document-input" />
+          <div id="kycDocumentError" class="error" data-testid="kyc-document-error"></div>
+
+          <label for="currentPhoto">Current Photo Upload (.png only)</label>
+          <input id="currentPhoto" type="file" accept=".png,image/png" data-testid="kyc-photo-input" />
+          <div id="currentPhotoError" class="error" data-testid="kyc-photo-error"></div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="kyc-submit">Submit KYC Update</button>
+          </div>
+          <div id="kycMessage" class="message hidden" data-testid="kyc-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="settings-preferences-panel">
+        <h2>Banking Preferences</h2>
+        <form id="settingsForm">
+          <h3>Communication</h3>
+          <label><input type="checkbox" id="emailAlerts" data-testid="settings-email-alerts" /> Email Alerts</label>
+          <label><input type="checkbox" id="smsAlerts" data-testid="settings-sms-alerts" /> SMS Alerts</label>
+          <label><input type="checkbox" id="pushAlerts" data-testid="settings-push-alerts" /> Push Alerts</label>
+          <label><input type="checkbox" id="marketingOffers" data-testid="settings-marketing-offers" /> Offers and Promotions</label>
+
+          <h3>Security</h3>
+          <label><input type="checkbox" id="twoFactorAuth" data-testid="settings-2fa" /> Two Factor Authentication</label>
+          <label><input type="checkbox" id="loginAlerts" data-testid="settings-login-alerts" /> Login Alerts</label>
+          <label><input type="checkbox" id="transactionOtp" data-testid="settings-transaction-otp" /> Transaction OTP</label>
+          <label><input type="checkbox" id="biometricEnabled" data-testid="settings-biometric" /> Biometric Login</label>
+
+          <h3>Preferences</h3>
+          <div class="row">
+            <div>
+              <label for="language">Language</label>
+              <select id="language" data-testid="settings-language">
+                <option>English</option>
+                <option>Hindi</option>
+                <option>Bengali</option>
+                <option>Tamil</option>
+              </select>
+            </div>
+            <div>
+              <label for="statementDelivery">Statement Delivery</label>
+              <select id="statementDelivery" data-testid="settings-statement-delivery">
+                <option>Email</option>
+                <option>SMS</option>
+                <option>Both</option>
+              </select>
+            </div>
+            <div>
+              <label for="defaultAccount">Default Account</label>
+              <select id="defaultAccount" data-testid="settings-default-account">
+                <option>Savings</option>
+                <option>Current</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="settings-save">Save Settings</button>
+            <button id="reloadSettingsBtn" type="button" class="secondary" data-testid="settings-reload">Reload</button>
+          </div>
+          <div id="settingsMessage" class="message hidden" data-testid="settings-message"></div>
+        </form>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/settings.js"></script>
+  </body>
+</html>

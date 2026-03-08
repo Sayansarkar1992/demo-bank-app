@@ -76,6 +76,9 @@ const accountData = {
   },
   creditCard: {
     cardNumberMasked: '4111-XXXX-XXXX-1020',
+    cardHolder: 'Demo User',
+    network: 'VISA',
+    validThru: '08/31',
     availableLimit: 180000,
     totalLimit: 250000,
     dueAmount: 8450,
@@ -114,6 +117,29 @@ const accountData = {
         { id: 'ST4', date: '2026-02-21', merchant: 'IRCTC', amount: 10630 }
       ]
     }
+  },
+  debitCard: {
+    cardNumberMasked: '5210-XXXX-XXXX-4507',
+    linkedAccount: 'SA-100200300',
+    cardHolder: 'Demo User',
+    network: 'RuPay',
+    validThru: '11/30',
+    status: 'ACTIVE',
+    blockedAt: null,
+    blockedReason: null,
+    dailyAtmLimit: 25000,
+    dailyPosLimit: 75000,
+    controls: {
+      onlineTransactions: true,
+      contactlessPayments: true,
+      internationalUsage: false,
+      atmCashWithdrawal: true
+    },
+    recentTransactions: [
+      { id: 'D1', date: '2026-03-05', merchant: 'Fuel Station', mode: 'POS', amount: 2200 },
+      { id: 'D2', date: '2026-03-06', merchant: 'ATM Withdrawal', mode: 'ATM', amount: 5000 },
+      { id: 'D3', date: '2026-03-07', merchant: 'Supermart', mode: 'POS', amount: 1475 }
+    ]
   }
 };
 
@@ -158,6 +184,74 @@ const serviceRequests = [
     createdAt: '2026-03-05T09:45:00.000Z'
   }
 ];
+
+const supportFaqs = [
+  {
+    id: 'FAQ-001',
+    question: 'How do I reset my net banking password?',
+    answer: 'Go to Settings > Security > Reset Password. Verify with OTP to complete.'
+  },
+  {
+    id: 'FAQ-002',
+    question: 'Why is my UPI transaction pending?',
+    answer: 'UPI may take up to 24 hours in rare network cases. If not resolved, raise a support note.'
+  },
+  {
+    id: 'FAQ-003',
+    question: 'How to increase debit card limits?',
+    answer: 'Open Debit Card tab and update daily limits from Card Controls.'
+  }
+];
+
+const supportNotes = [];
+
+const paymentsData = {
+  beneficiaries: [
+    { id: 'BEN-001', name: 'Riya Sharma', bank: 'HDFC Bank', accountLast4: '8912' },
+    { id: 'BEN-002', name: 'Amit Verma', bank: 'ICICI Bank', accountLast4: '1044' },
+    { id: 'BEN-003', name: 'School Fees', bank: 'SBI', accountLast4: '4501' }
+  ],
+  history: [
+    {
+      id: 'PAY-1001',
+      date: '2026-03-03T06:00:00.000Z',
+      beneficiary: 'Riya Sharma',
+      mode: 'IMPS',
+      amount: 2500,
+      status: 'SUCCESS'
+    },
+    {
+      id: 'PAY-1002',
+      date: '2026-03-05T11:20:00.000Z',
+      beneficiary: 'School Fees',
+      mode: 'NEFT',
+      amount: 6000,
+      status: 'SUCCESS'
+    }
+  ]
+};
+
+const kycSubmissions = [];
+
+const settingsData = {
+  communication: {
+    emailAlerts: true,
+    smsAlerts: true,
+    pushAlerts: true,
+    marketingOffers: true
+  },
+  security: {
+    twoFactorAuth: true,
+    loginAlerts: true,
+    transactionOtp: true,
+    biometricEnabled: false
+  },
+  preferences: {
+    language: 'English',
+    statementDelivery: 'Email',
+    defaultAccount: 'Savings'
+  }
+};
 
 const bankingOffers = [
   {
@@ -503,6 +597,122 @@ function validateInvestmentCalculator(body) {
   return { errors, amount, annualRatePct, years };
 }
 
+function validatePaymentTransfer(body) {
+  const errors = {};
+  const beneficiaryId = (body.beneficiaryId || '').trim();
+  const amount = Number(body.amount);
+  const mode = (body.mode || '').trim().toUpperCase();
+  const note = (body.note || '').trim();
+
+  if (!paymentsData.beneficiaries.some((b) => b.id === beneficiaryId)) {
+    errors.beneficiaryId = 'Select a valid beneficiary.';
+  }
+
+  if (!Number.isFinite(amount) || amount <= 0 || amount > 200000) {
+    errors.amount = 'Amount must be between 1 and 200000.';
+  }
+
+  if (!['IMPS', 'NEFT', 'RTGS', 'UPI'].includes(mode)) {
+    errors.mode = 'Mode must be IMPS, NEFT, RTGS, or UPI.';
+  }
+
+  if (note && note.length < 3) {
+    errors.note = 'Note must be at least 3 characters if provided.';
+  }
+
+  return { errors, beneficiaryId, amount, mode, note: note || 'Fund transfer' };
+}
+
+function validateSupportNote(body) {
+  const errors = {};
+  const category = (body.category || '').trim();
+  const subject = (body.subject || '').trim();
+  const note = (body.note || '').trim();
+
+  if (!category || category.length < 2) {
+    errors.category = 'Category is required.';
+  }
+
+  if (!subject || subject.length < 5) {
+    errors.subject = 'Subject must be at least 5 characters.';
+  }
+
+  if (!note || note.length < 10) {
+    errors.note = 'Note must be at least 10 characters.';
+  }
+
+  return { errors, category, subject, note };
+}
+
+function validateDebitCardControls(body) {
+  const errors = {};
+  const boolKeys = ['onlineTransactions', 'contactlessPayments', 'internationalUsage', 'atmCashWithdrawal'];
+  const dailyAtmLimit = Number(body.dailyAtmLimit);
+  const dailyPosLimit = Number(body.dailyPosLimit);
+
+  boolKeys.forEach((key) => {
+    if (typeof body[key] !== 'boolean') {
+      errors[key] = 'Must be boolean.';
+    }
+  });
+
+  if (!Number.isFinite(dailyAtmLimit) || dailyAtmLimit < 1000 || dailyAtmLimit > 200000) {
+    errors.dailyAtmLimit = 'ATM limit must be between 1000 and 200000.';
+  }
+
+  if (!Number.isFinite(dailyPosLimit) || dailyPosLimit < 1000 || dailyPosLimit > 500000) {
+    errors.dailyPosLimit = 'POS limit must be between 1000 and 500000.';
+  }
+
+  return { errors, dailyAtmLimit, dailyPosLimit };
+}
+
+function validateSettingsUpdate(body) {
+  const errors = {};
+
+  const communication = body.communication || {};
+  const security = body.security || {};
+  const preferences = body.preferences || {};
+
+  const boolFields = [
+    ['communication', 'emailAlerts'],
+    ['communication', 'smsAlerts'],
+    ['communication', 'pushAlerts'],
+    ['communication', 'marketingOffers'],
+    ['security', 'twoFactorAuth'],
+    ['security', 'loginAlerts'],
+    ['security', 'transactionOtp'],
+    ['security', 'biometricEnabled']
+  ];
+
+  boolFields.forEach(([group, key]) => {
+    const value = group === 'communication' ? communication[key] : security[key];
+    if (typeof value !== 'boolean') {
+      errors[`${group}.${key}`] = 'Must be boolean.';
+    }
+  });
+
+  const allowedLanguages = ['English', 'Hindi', 'Bengali', 'Tamil'];
+  const allowedStatementDelivery = ['Email', 'SMS', 'Both'];
+  const allowedDefaultAccount = ['Savings', 'Current'];
+
+  if (!allowedLanguages.includes(preferences.language)) {
+    errors['preferences.language'] = `Language must be one of: ${allowedLanguages.join(', ')}.`;
+  }
+
+  if (!allowedStatementDelivery.includes(preferences.statementDelivery)) {
+    errors['preferences.statementDelivery'] =
+      `Statement delivery must be one of: ${allowedStatementDelivery.join(', ')}.`;
+  }
+
+  if (!allowedDefaultAccount.includes(preferences.defaultAccount)) {
+    errors['preferences.defaultAccount'] =
+      `Default account must be one of: ${allowedDefaultAccount.join(', ')}.`;
+  }
+
+  return { errors, communication, security, preferences };
+}
+
 function createAccountTransaction(accountKey, type, amount, narration) {
   const account = accountData[accountKey];
   const prefix = accountKey === 'savings' ? 'S' : 'C';
@@ -744,6 +954,150 @@ app.post('/api/investments/calculator', authMiddleware, (req, res) => {
   });
 });
 
+app.get('/api/kyc/status', authMiddleware, (_req, res) => {
+  res.json({
+    kycStatus: customerProfile.kycStatus,
+    profileCompletion: customerProfile.profileCompletion,
+    lastSubmission:
+      kycSubmissions.length > 0 ? kycSubmissions[kycSubmissions.length - 1] : null
+  });
+});
+
+app.post(
+  '/api/kyc/update',
+  authMiddleware,
+  upload.fields([
+    { name: 'kycDocument', maxCount: 1 },
+    { name: 'currentPhoto', maxCount: 1 }
+  ]),
+  (req, res) => {
+    const documentFile = req.files && req.files.kycDocument ? req.files.kycDocument[0] : null;
+    const currentPhoto = req.files && req.files.currentPhoto ? req.files.currentPhoto[0] : null;
+    const errors = {};
+
+    if (!documentFile) {
+      errors.kycDocument = 'KYC document upload is required.';
+    }
+
+    if (!currentPhoto) {
+      errors.currentPhoto = 'Current profile photo upload is required.';
+    } else {
+      const nameLower = currentPhoto.originalname.toLowerCase();
+      const mime = (currentPhoto.mimetype || '').toLowerCase();
+      const isPng = nameLower.endsWith('.png') || mime === 'image/png';
+      if (!isPng) {
+        errors.currentPhoto = 'Current profile photo must be a PNG file.';
+      }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ message: 'Validation failed.', errors });
+    }
+
+    const submission = {
+      id: `KYC-${Date.now()}`,
+      submittedAt: new Date().toISOString(),
+      document: {
+        filename: documentFile.filename,
+        originalname: documentFile.originalname,
+        size: documentFile.size
+      },
+      currentPhoto: {
+        filename: currentPhoto.filename,
+        originalname: currentPhoto.originalname,
+        size: currentPhoto.size
+      },
+      status: 'UNDER_REVIEW'
+    };
+
+    kycSubmissions.push(submission);
+    customerProfile.kycStatus = 'UNDER_REVIEW';
+    customerProfile.profileCompletion = Math.min(100, customerProfile.profileCompletion + 3);
+    pushNotification('KYC Update Submitted', `Submission ${submission.id} is under review.`, 'high');
+
+    return res.status(201).json({
+      message: 'KYC update submitted successfully.',
+      submission
+    });
+  }
+);
+
+app.get('/api/payments/beneficiaries', authMiddleware, (_req, res) => {
+  res.json({
+    count: paymentsData.beneficiaries.length,
+    items: paymentsData.beneficiaries
+  });
+});
+
+app.get('/api/payments/history', authMiddleware, (_req, res) => {
+  res.json({
+    count: paymentsData.history.length,
+    items: paymentsData.history
+  });
+});
+
+app.post('/api/payments/transfer', authMiddleware, (req, res) => {
+  const { errors, beneficiaryId, amount, mode, note } = validatePaymentTransfer(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  const beneficiary = paymentsData.beneficiaries.find((b) => b.id === beneficiaryId);
+  const payment = {
+    id: `PAY-${Date.now()}`,
+    date: new Date().toISOString(),
+    beneficiary: beneficiary.name,
+    mode,
+    amount,
+    note,
+    status: 'SUCCESS'
+  };
+  paymentsData.history.unshift(payment);
+  pushNotification('Payment Successful', `INR ${amount} sent to ${beneficiary.name} via ${mode}.`, 'info');
+
+  return res.status(201).json({
+    message: 'Payment transferred successfully.',
+    payment
+  });
+});
+
+app.get('/api/support/faqs', authMiddleware, (_req, res) => {
+  res.json({
+    count: supportFaqs.length,
+    items: supportFaqs
+  });
+});
+
+app.post('/api/support/drop-note', authMiddleware, (req, res) => {
+  const { errors, category, subject, note } = validateSupportNote(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  const item = {
+    id: `NOTE-${Date.now()}`,
+    category,
+    subject,
+    note,
+    status: 'RECEIVED',
+    createdAt: new Date().toISOString()
+  };
+  supportNotes.unshift(item);
+  pushNotification('Support Note Received', `Support note ${item.id} has been recorded.`, 'info');
+
+  return res.status(201).json({
+    message: 'Support note submitted.',
+    note: item
+  });
+});
+
+app.get('/api/support/notes', authMiddleware, (_req, res) => {
+  res.json({
+    count: supportNotes.length,
+    items: supportNotes
+  });
+});
+
 app.get('/api/support/requests', authMiddleware, (_req, res) => {
   res.json({
     count: serviceRequests.length,
@@ -818,6 +1172,37 @@ app.post('/api/auth/register', upload.single('document'), (req, res) => {
   });
 });
 
+app.get('/api/settings', authMiddleware, (_req, res) => {
+  res.json(settingsData);
+});
+
+app.put('/api/settings', authMiddleware, (req, res) => {
+  const { errors, communication, security, preferences } = validateSettingsUpdate(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  settingsData.communication = {
+    ...settingsData.communication,
+    ...communication
+  };
+  settingsData.security = {
+    ...settingsData.security,
+    ...security
+  };
+  settingsData.preferences = {
+    ...settingsData.preferences,
+    ...preferences
+  };
+
+  pushNotification('Settings Updated', 'Your profile settings were updated successfully.', 'info');
+
+  return res.json({
+    message: 'Settings updated successfully.',
+    settings: settingsData
+  });
+});
+
 app.post('/api/files/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'File is required.' });
@@ -889,6 +1274,12 @@ app.get('/api/accounts/summary', authMiddleware, (_req, res) => {
       availableLimit: accountData.creditCard.availableLimit,
       status: accountData.creditCard.status,
       dueAmount: accountData.creditCard.dueAmount
+    },
+    debitCard: {
+      cardNumberMasked: accountData.debitCard.cardNumberMasked,
+      linkedAccount: accountData.debitCard.linkedAccount,
+      status: accountData.debitCard.status,
+      dailyAtmLimit: accountData.debitCard.dailyAtmLimit
     }
   });
 });
@@ -990,6 +1381,81 @@ app.get('/api/accounts/current/passbook', authMiddleware, (_req, res) => {
   res.setHeader('Content-Type', 'text/csv');
   res.setHeader('Content-Disposition', `attachment; filename=\"current-passbook-${stamp}.csv\"`);
   return res.send(csv);
+});
+
+app.get('/api/cards/debit', authMiddleware, (_req, res) => {
+  res.json(accountData.debitCard);
+});
+
+app.put('/api/cards/debit/controls', authMiddleware, (req, res) => {
+  if (accountData.debitCard.status === 'BLOCKED') {
+    return res.status(423).json({ message: 'Card controls cannot be changed while card is blocked.' });
+  }
+
+  const { errors, dailyAtmLimit, dailyPosLimit } = validateDebitCardControls(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  accountData.debitCard.controls = {
+    ...accountData.debitCard.controls,
+    onlineTransactions: req.body.onlineTransactions,
+    contactlessPayments: req.body.contactlessPayments,
+    internationalUsage: req.body.internationalUsage,
+    atmCashWithdrawal: req.body.atmCashWithdrawal
+  };
+  accountData.debitCard.dailyAtmLimit = dailyAtmLimit;
+  accountData.debitCard.dailyPosLimit = dailyPosLimit;
+  pushNotification('Debit Card Controls Updated', 'Your debit card controls were updated.', 'info');
+
+  return res.json({
+    message: 'Debit card controls updated.',
+    card: accountData.debitCard
+  });
+});
+
+app.post('/api/cards/debit/block', authMiddleware, (req, res) => {
+  if (accountData.debitCard.status === 'BLOCKED') {
+    return res.status(400).json({ message: 'Debit card is already blocked.' });
+  }
+
+  const { errors, reason } = validateCardBlock(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  accountData.debitCard.status = 'BLOCKED';
+  accountData.debitCard.blockedReason = reason;
+  accountData.debitCard.blockedAt = new Date().toISOString();
+  pushNotification('Debit Card Blocked', `Your debit card was blocked for reason: ${reason}`, 'high');
+
+  return res.json({
+    message: 'Debit card blocked successfully.',
+    status: accountData.debitCard.status,
+    blockedAt: accountData.debitCard.blockedAt,
+    blockedReason: accountData.debitCard.blockedReason
+  });
+});
+
+app.post('/api/cards/debit/unblock', authMiddleware, (req, res) => {
+  if (accountData.debitCard.status !== 'BLOCKED') {
+    return res.status(400).json({ message: 'Debit card is already active.' });
+  }
+
+  const { errors } = validateCardUnblock(req.body);
+  if (Object.keys(errors).length > 0) {
+    return res.status(400).json({ message: 'Validation failed.', errors });
+  }
+
+  accountData.debitCard.status = 'ACTIVE';
+  accountData.debitCard.blockedReason = null;
+  accountData.debitCard.blockedAt = null;
+  pushNotification('Debit Card Unblocked', 'Your debit card has been unblocked successfully.', 'info');
+
+  return res.json({
+    message: 'Debit card unblocked successfully.',
+    status: accountData.debitCard.status
+  });
 });
 
 app.get('/api/cards/credit', authMiddleware, (_req, res) => {

@@ -160,6 +160,18 @@ a.button.secondary {
   background: #fff;
 }
 
+.card-image {
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: block;
+}
+
+details.card summary {
+  cursor: pointer;
+}
+
 a {
   color: var(--accent);
 }

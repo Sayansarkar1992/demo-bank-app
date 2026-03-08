@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Support</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="support-title">Support</h1>
+      <small>FAQ and customer support note submission</small>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="support-back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="support-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="support-faq-panel">
+        <h2>FAQ</h2>
+        <div id="faqList"></div>
+      </section>
+
+      <section class="panel" data-testid="support-drop-note-panel">
+        <h2>Drop Note</h2>
+        <form id="supportNoteForm">
+          <div class="row">
+            <div>
+              <label for="noteCategory">Category</label>
+              <select id="noteCategory" data-testid="support-note-category">
+                <option value="">Select</option>
+                <option>Accounts</option>
+                <option>Payments</option>
+                <option>Credit Card</option>
+                <option>Debit Card</option>
+                <option>KYC</option>
+                <option>Technical</option>
+              </select>
+              <div id="noteCategoryError" class="error" data-testid="support-note-category-error"></div>
+            </div>
+            <div>
+              <label for="noteSubject">Subject</label>
+              <input id="noteSubject" type="text" data-testid="support-note-subject" />
+              <div id="noteSubjectError" class="error" data-testid="support-note-subject-error"></div>
+            </div>
+          </div>
+
+          <label for="noteBody">Note</label>
+          <textarea id="noteBody" rows="4" data-testid="support-note-body"></textarea>
+          <div id="noteBodyError" class="error" data-testid="support-note-body-error"></div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="support-note-submit">Submit Note</button>
+            <button id="refreshNotesBtn" type="button" class="secondary" data-testid="support-refresh-notes">Refresh Notes</button>
+          </div>
+
+          <div id="supportNoteMessage" class="message hidden" data-testid="support-note-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="support-notes-panel">
+        <h2>Submitted Notes</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="notesBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/support.js"></script>
+  </body>
+</html>

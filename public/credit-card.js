@@ -70,6 +70,10 @@ function refreshActionAvailability() {
 function loadCardSummary(card) {
   currentCard = card;
   setText('cardNumber', card.cardNumberMasked);
+  setText('cardNumberDisplay', card.cardNumberMasked);
+  setText('cardHolder', card.cardHolder || '-');
+  setText('cardNetwork', card.network || '-');
+  setText('cardValidThru', card.validThru || '-');
   setText('cardStatus', card.status || '-');
   setText('cardVariant', card.activeCardVariant || '-');
   setText('rewardPoints', card.rewardPoints || '0');

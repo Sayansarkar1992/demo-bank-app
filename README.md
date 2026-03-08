@@ -10,12 +10,17 @@ Lightweight full-stack web app for UI + API automation testing.
 
 ## Why this is automation-friendly
 - End-to-end flow: Login -> Home -> Accounts/Loan/Credit Card pages
+- Extended flow: Home -> Payments, Support, Settings (KYC), Debit Card, Investment, Under Maintenance
 - Demo user pre-provisioned and auto session creation on login page
 - Strong client + server validation paths with predictable error messages
 - Savings + Current account operations: add amount, withdraw amount, print/download passbook
 - Credit card operations: apply new card, upgrade card, download last statement, unbilled transactions, card controls, block/unblock card, real bill payment
+- Debit card operations: digital card view, card controls, daily limits, block/unblock, recent transactions
+- Payments module: beneficiaries + transfer + history
+- Support module: FAQ + drop note
+- Settings module: communication/security/preferences + KYC update upload (document + PNG photo)
 - Customer dashboard enhancements: notifications center, service request workflow, relationship/KYC indicators
-- Banking offer banners + popup ads (for UI automation of modal interactions)
+- Banking offer banners + sequential popup ads (multi-popup modal automation)
 - Investment module with realistic options and full Shadow DOM + nested Shadow DOM widgets
 - File upload/download flows
 - Drag-and-drop component (Loan page)
@@ -82,8 +87,22 @@ Free-tier note:
 - `GET /api/notifications`
 - `POST /api/notifications/:id/read`
 - `GET /api/offers/active`
+- `GET /api/support/faqs`
+- `POST /api/support/drop-note`
+- `GET /api/support/notes`
 - `GET /api/support/requests`
 - `POST /api/support/requests`
+
+### KYC and Settings (Bearer token)
+- `GET /api/kyc/status`
+- `POST /api/kyc/update` (multipart: `kycDocument`, `currentPhoto` `.png`)
+- `GET /api/settings`
+- `PUT /api/settings`
+
+### Payments (Bearer token)
+- `GET /api/payments/beneficiaries`
+- `GET /api/payments/history`
+- `POST /api/payments/transfer`
 
 ### Investments (Bearer token)
 - `GET /api/investments/options`
@@ -112,6 +131,12 @@ Free-tier note:
 - `POST /api/cards/credit/block`
 - `POST /api/cards/credit/unblock` (demo OTP: `123456`)
 - `POST /api/cards/credit/pay-bill`
+
+### Debit Card (Bearer token)
+- `GET /api/cards/debit`
+- `PUT /api/cards/debit/controls`
+- `POST /api/cards/debit/block`
+- `POST /api/cards/debit/unblock` (demo OTP: `123456`)
 
 ### Loans (Bearer token)
 - `GET /api/loans`

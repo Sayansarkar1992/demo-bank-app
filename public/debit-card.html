@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Debit Card</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="debit-title">Debit Card</h1>
+      <small>Card details, controls, and transaction view</small>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="debit-back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="debit-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="debit-digital-card-panel">
+        <h2>Digital Debit Card</h2>
+        <div class="row">
+          <div>
+            <img src="/assets/debit-card.svg" alt="Debit card image" class="card-image" data-testid="debit-card-image" />
+          </div>
+          <div>
+            <div class="grid">
+              <div class="card"><div class="muted">Card Number</div><strong id="cardNumber"></strong></div>
+              <div class="card"><div class="muted">Card Holder</div><strong id="cardHolder"></strong></div>
+              <div class="card"><div class="muted">Network</div><strong id="network"></strong></div>
+              <div class="card"><div class="muted">Valid Thru</div><strong id="validThru"></strong></div>
+              <div class="card"><div class="muted">Linked Account</div><strong id="linkedAccount"></strong></div>
+              <div class="card"><div class="muted">Status</div><strong id="cardStatus"></strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="debit-controls-panel">
+        <h2>Card Controls</h2>
+        <form id="debitControlsForm">
+          <label><input type="checkbox" id="ctrlOnline" data-testid="debit-ctrl-online" /> Online Transactions</label>
+          <label><input type="checkbox" id="ctrlContactless" data-testid="debit-ctrl-contactless" /> Contactless Payments</label>
+          <label><input type="checkbox" id="ctrlInternational" data-testid="debit-ctrl-international" /> International Usage</label>
+          <label><input type="checkbox" id="ctrlAtm" data-testid="debit-ctrl-atm" /> ATM Cash Withdrawal</label>
+
+          <div class="row">
+            <div>
+              <label for="dailyAtmLimit">Daily ATM Limit</label>
+              <input id="dailyAtmLimit" type="number" min="1000" step="100" data-testid="debit-atm-limit" />
+              <div id="dailyAtmLimitError" class="error" data-testid="debit-atm-limit-error"></div>
+            </div>
+            <div>
+              <label for="dailyPosLimit">Daily POS Limit</label>
+              <input id="dailyPosLimit" type="number" min="1000" step="100" data-testid="debit-pos-limit" />
+              <div id="dailyPosLimitError" class="error" data-testid="debit-pos-limit-error"></div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="debit-save-controls">Save Controls</button>
+          </div>
+          <div id="controlsMessage" class="message hidden" data-testid="debit-controls-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="debit-status-panel">
+        <h2>Block / Unblock Debit Card</h2>
+        <form id="debitBlockForm">
+          <label for="blockReason">Reason for Block</label>
+          <input id="blockReason" type="text" placeholder="Lost card / suspicious transaction etc." data-testid="debit-block-reason" />
+          <div id="blockReasonError" class="error" data-testid="debit-block-reason-error"></div>
+          <div class="actions">
+            <button type="submit" class="secondary" data-testid="debit-block-button">Block Card</button>
+          </div>
+        </form>
+
+        <form id="debitUnblockForm">
+          <label for="unblockOtp">Unblock OTP (Demo: 123456)</label>
+          <input id="unblockOtp" type="text" maxlength="6" data-testid="debit-unblock-otp" />
+          <div id="unblockOtpError" class="error" data-testid="debit-unblock-otp-error"></div>
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="debit-unblock-button">Unblock Card</button>
+          </div>
+        </form>
+
+        <div id="statusMessage" class="message hidden" data-testid="debit-status-message"></div>
+      </section>
+
+      <section class="panel" data-testid="debit-transactions-panel">
+        <h2>Recent Debit Card Transactions</h2>
+        <div class="actions">
+          <button id="refreshTxBtn" type="button" class="secondary" data-testid="debit-refresh-transactions">Refresh</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Merchant</th>
+              <th>Mode</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="txBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/debit-card.js"></script>
+  </body>
+</html>

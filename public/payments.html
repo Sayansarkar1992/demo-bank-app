@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Payments</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="payments-title">Payments</h1>
+      <small>Transfer funds to saved beneficiaries</small>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="payments-back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="payments-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="payments-transfer-panel">
+        <h2>New Payment</h2>
+        <form id="paymentsForm">
+          <div class="row">
+            <div>
+              <label for="beneficiaryId">Beneficiary</label>
+              <select id="beneficiaryId" data-testid="payments-beneficiary"></select>
+              <div id="beneficiaryError" class="error" data-testid="payments-beneficiary-error"></div>
+            </div>
+            <div>
+              <label for="paymentMode">Mode</label>
+              <select id="paymentMode" data-testid="payments-mode">
+                <option value="IMPS">IMPS</option>
+                <option value="NEFT">NEFT</option>
+                <option value="RTGS">RTGS</option>
+                <option value="UPI">UPI</option>
+              </select>
+              <div id="modeError" class="error" data-testid="payments-mode-error"></div>
+            </div>
+            <div>
+              <label for="amount">Amount (INR)</label>
+              <input id="amount" type="number" min="1" step="0.01" data-testid="payments-amount" />
+              <div id="amountError" class="error" data-testid="payments-amount-error"></div>
+            </div>
+          </div>
+
+          <label for="note">Note</label>
+          <input id="note" type="text" placeholder="Fund transfer" data-testid="payments-note" />
+          <div id="noteError" class="error" data-testid="payments-note-error"></div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="payments-submit">Transfer</button>
+            <button id="refreshHistoryBtn" type="button" class="secondary" data-testid="payments-refresh-history">Refresh History</button>
+          </div>
+
+          <div id="paymentsMessage" class="message hidden" data-testid="payments-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="payments-beneficiaries-panel">
+        <h2>Saved Beneficiaries</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Bank</th>
+              <th>Account</th>
+            </tr>
+          </thead>
+          <tbody id="beneficiariesBody"></tbody>
+        </table>
+      </section>
+
+      <section class="panel" data-testid="payments-history-panel">
+        <h2>Payment History</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Beneficiary</th>
+              <th>Mode</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="paymentsHistoryBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/payments.js"></script>
+  </body>
+</html>

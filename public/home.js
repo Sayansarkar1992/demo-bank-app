@@ -14,6 +14,8 @@ const offerPopupTitle = document.getElementById('offerPopupTitle');
 const offerPopupText = document.getElementById('offerPopupText');
 const offerPopupCta = document.getElementById('offerPopupCta');
 const offerPopupClose = document.getElementById('offerPopupClose');
+let popupQueue = [];
+let popupCursor = 0;
 
 function formatAmount(num) {
   return `INR ${Number(num).toFixed(2)}`;
@@ -59,6 +61,11 @@ async function loadSummary() {
       title: 'Credit Card',
       subtitle: `${data.creditCard.cardNumberMasked} (${data.creditCard.status})`,
       metric: `Available ${data.creditCard.availableLimit} | Due ${data.creditCard.dueAmount}`
+    },
+    {
+      title: 'Debit Card',
+      subtitle: `${data.debitCard.cardNumberMasked} (${data.debitCard.status})`,
+      metric: `Linked ${data.debitCard.linkedAccount} | ATM Limit ${data.debitCard.dailyAtmLimit}`
     }
   ];
 
@@ -173,7 +180,20 @@ function openOfferPopup(offer) {
   offerPopupText.textContent = `${offer.bannerText}. ${offer.description}`;
   offerPopupCta.href = offer.ctaLink || '/home.html';
   offerPopupCta.textContent = offer.ctaText || 'View Offer';
+  const remaining = popupQueue.length - popupCursor;
+  offerPopupClose.textContent = remaining > 0 ? `Next Offer (${remaining})` : 'Close';
   offerPopup.classList.remove('hidden');
+}
+
+function openNextOfferPopup() {
+  if (popupCursor >= popupQueue.length) {
+    offerPopup.classList.add('hidden');
+    return;
+  }
+
+  const offer = popupQueue[popupCursor];
+  popupCursor += 1;
+  openOfferPopup(offer);
 }
 
 async function loadOffers() {
@@ -202,10 +222,11 @@ async function loadOffers() {
     )
     .join('');
 
-  const popupOffer = offers.find((offer) => offer.popup);
-  if (popupOffer) {
+  popupQueue = offers.filter((offer) => offer.popup);
+  popupCursor = 0;
+  if (popupQueue.length > 0) {
     setTimeout(() => {
-      openOfferPopup(popupOffer);
+      openNextOfferPopup();
     }, 1000);
   }
 }
@@ -290,4 +311,9 @@ notificationsBody.addEventListener('click', async (event) => {
 
 offerPopupClose.addEventListener('click', () => {
   offerPopup.classList.add('hidden');
+  if (popupCursor < popupQueue.length) {
+    setTimeout(() => {
+      openNextOfferPopup();
+    }, 450);
+  }
 });
