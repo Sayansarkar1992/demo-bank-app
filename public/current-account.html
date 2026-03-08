@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Current Account</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="current-title">Current Account</h1>
+    </header>
+    <main>
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="current-back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="current-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="current-overview-panel">
+        <h2>Current Account Details</h2>
+        <div class="grid">
+          <div class="card"><div class="muted">Account No.</div><strong id="accNo"></strong></div>
+          <div class="card"><div class="muted">Balance</div><strong id="accBalance"></strong></div>
+          <div class="card"><div class="muted">Overdraft Limit</div><strong id="odLimit"></strong></div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="current-actions-panel">
+        <h2>Add / Withdraw</h2>
+        <form id="txnForm" novalidate>
+          <div class="row">
+            <div>
+              <label for="amount">Amount</label>
+              <input id="amount" type="number" step="0.01" data-testid="current-amount-input" />
+              <div id="amountError" class="error" data-testid="current-amount-error"></div>
+            </div>
+            <div>
+              <label for="narration">Narration</label>
+              <input id="narration" type="text" data-testid="current-narration-input" />
+              <div id="narrationError" class="error" data-testid="current-narration-error"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="depositBtn" type="button" class="primary" data-testid="current-deposit-button">Add Amount</button>
+            <button id="withdrawBtn" type="button" class="secondary" data-testid="current-withdraw-button">Withdraw Amount</button>
+            <button id="passbookBtn" type="button" class="secondary" data-testid="current-passbook-download">Print Passbook</button>
+          </div>
+          <div id="txnMessage" class="message hidden" data-testid="current-txn-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="current-transactions-panel">
+        <h2>Recent Transactions</h2>
+        <table class="table">
+          <thead>
+            <tr><th>ID</th><th>Date</th><th>Type</th><th>Amount</th><th>Narration</th></tr>
+          </thead>
+          <tbody id="txBody"></tbody>
+        </table>
+      </section>
+    </main>
+    <script src="/common.js"></script>
+    <script src="/current-account.js"></script>
+  </body>
+</html>

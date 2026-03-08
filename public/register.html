@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Register</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="register-page-title">Demo Bank App - Registration</h1>
+      <small>Includes validation, upload, and download test flows</small>
+    </header>
+
+    <main>
+      <section class="panel">
+        <h2>User Registration</h2>
+        <form id="registerForm" novalidate data-testid="register-form">
+          <div class="row">
+            <div>
+              <label for="fullName">Full Name</label>
+              <input id="fullName" name="fullName" type="text" data-testid="fullname-input" />
+              <div id="fullNameError" class="error" data-testid="fullname-error"></div>
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" data-testid="register-email-input" />
+              <div id="emailError" class="error" data-testid="register-email-error"></div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" data-testid="register-password-input" />
+              <div id="passwordError" class="error" data-testid="register-password-error"></div>
+            </div>
+            <div>
+              <label for="phone">Phone (10 digits)</label>
+              <input id="phone" name="phone" type="tel" data-testid="phone-input" />
+              <div id="phoneError" class="error" data-testid="phone-error"></div>
+            </div>
+          </div>
+
+          <label for="document">Upload KYC Document (optional)</label>
+          <input id="document" name="document" type="file" data-testid="register-document-input" />
+
+          <div class="actions">
+            <button class="primary" type="submit" data-testid="register-submit">Register</button>
+            <a class="button secondary" href="/login.html" data-testid="back-login-link">Back to Login</a>
+          </div>
+          <div id="registerMessage" class="message hidden" data-testid="register-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="file-panel">
+        <h2>Upload and Download Playground</h2>
+        <p class="muted">Use this area for dedicated file automation tests.</p>
+
+        <div class="actions">
+          <a href="/api/files/template" class="button secondary" data-testid="download-template-button">Download Registration Template</a>
+        </div>
+
+        <form id="uploadForm" data-testid="upload-form">
+          <label for="genericFile">Upload Any File</label>
+          <input id="genericFile" name="file" type="file" data-testid="generic-file-input" />
+          <div class="actions">
+            <button class="secondary" type="submit" data-testid="file-upload-submit">Upload File</button>
+            <button class="secondary" type="button" id="refreshFiles" data-testid="refresh-files-button">Refresh File List</button>
+          </div>
+        </form>
+
+        <div id="uploadMessage" class="message hidden" data-testid="upload-message"></div>
+
+        <h3>Uploaded Files</h3>
+        <table class="table" data-testid="uploaded-files-table">
+          <thead>
+            <tr>
+              <th>Filename</th>
+              <th>Size</th>
+              <th>Modified</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="filesTbody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/register.js"></script>
+  </body>
+</html>

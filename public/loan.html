@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Loan</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="loan-title">Demo Bank App - Loan Page</h1>
+      <small>Contains drag-drop + shadow DOM + loan API flow</small>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="loan-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="loan-form-panel">
+        <h2>Apply for New Loan</h2>
+        <form id="loanForm">
+          <div class="row">
+            <div>
+              <label for="loanType">Loan Type</label>
+              <select id="loanType" name="loanType" data-testid="loan-type-select">
+                <option>Personal Loan</option>
+                <option>Education Loan</option>
+                <option>Home Loan</option>
+              </select>
+            </div>
+            <div>
+              <label for="amount">Amount</label>
+              <input id="amount" name="amount" type="number" data-testid="loan-amount-input" />
+              <div id="amountError" class="error" data-testid="loan-amount-error"></div>
+            </div>
+            <div>
+              <label for="tenureMonths">Tenure (months)</label>
+              <input id="tenureMonths" name="tenureMonths" type="number" data-testid="loan-tenure-input" />
+              <div id="tenureError" class="error" data-testid="loan-tenure-error"></div>
+            </div>
+          </div>
+
+          <label for="purpose">Purpose</label>
+          <textarea id="purpose" name="purpose" rows="3" data-testid="loan-purpose-input"></textarea>
+          <div id="purposeError" class="error" data-testid="loan-purpose-error"></div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="loan-submit">Submit Loan</button>
+            <button type="button" id="prefillValid" class="secondary" data-testid="loan-prefill">Prefill Valid Data</button>
+          </div>
+          <div id="loanMessage" class="message hidden" data-testid="loan-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="drag-drop-panel">
+        <h2>Drag and Drop Test Area</h2>
+        <div class="row">
+          <div>
+            <div class="drag-item" draggable="true" data-loan="Personal Loan" data-testid="drag-personal">Personal Loan Offer</div>
+            <div class="drag-item" draggable="true" data-loan="Education Loan" data-testid="drag-education">Education Loan Offer</div>
+            <div class="drag-item" draggable="true" data-loan="Home Loan" data-testid="drag-home">Home Loan Offer</div>
+          </div>
+          <div>
+            <div id="dropArea" class="drop-area" data-testid="loan-drop-area">Drop loan offer here</div>
+            <div id="dropResult" class="message hidden" data-testid="loan-drop-result"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="shadow-panel">
+        <h2>Shadow DOM Test Area</h2>
+        <loan-shadow-widget data-testid="shadow-widget-host"></loan-shadow-widget>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/loan.js"></script>
+  </body>
+</html>

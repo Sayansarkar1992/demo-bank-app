@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Login</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="page-title">Demo Bank App - Login</h1>
+      <small>Automation-friendly login page with demo user pre-provisioned</small>
+    </header>
+
+    <main>
+      <section class="panel" data-testid="demo-session-panel">
+        <h2>Demo User Session</h2>
+        <p class="muted">User: <strong>demo@bank.test / Demo@123</strong></p>
+        <div class="actions">
+          <button id="btnDemoLogin" class="secondary" data-testid="demo-login-button">Auto Sign In Demo User</button>
+          <a id="continueHome" class="button secondary hidden" href="/home.html" data-testid="continue-home-link">Continue to Home</a>
+          <a class="button secondary" href="/register.html" data-testid="register-link">Go to Registration</a>
+          <a class="button secondary" href="/api-docs" target="_blank" rel="noreferrer" data-testid="swagger-link">Open Swagger</a>
+        </div>
+        <div id="demoMessage" class="message hidden" data-testid="demo-message"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Login Form</h2>
+        <form id="loginForm" novalidate data-testid="login-form">
+          <div class="row">
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="demo@bank.test" data-testid="email-input" />
+              <div id="emailError" class="error" data-testid="email-error"></div>
+            </div>
+            <div>
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" placeholder="******" data-testid="password-input" />
+              <div id="passwordError" class="error" data-testid="password-error"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="login-submit">Login</button>
+          </div>
+          <div id="loginMessage" class="message hidden" data-testid="login-message"></div>
+        </form>
+      </section>
+    </main>
+
+    <script src="/common.js"></script>
+    <script src="/login.js"></script>
+  </body>
+</html>

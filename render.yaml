@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: demo-bank-app
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /api/health

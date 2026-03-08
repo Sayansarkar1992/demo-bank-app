@@ -1,0 +1,15 @@
+{
+  "name": "demo-bank-app",
+  "version": "1.0.0",
+  "description": "Lightweight demo banking app for UI/API automation testing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "multer": "^2.0.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

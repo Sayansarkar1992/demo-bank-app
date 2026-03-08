@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Credit Card</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="credit-title">Credit Card</h1>
+    </header>
+    <main>
+      <section class="panel" data-testid="offers-banner-panel">
+        <h2>Recommended Offers</h2>
+        <div id="offerBanner" class="grid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="actions">
+          <a class="button secondary" href="/home.html" data-testid="credit-back-home">Back to Home</a>
+          <button id="logoutBtn" class="secondary" data-testid="credit-logout">Logout</button>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="credit-info-panel">
+        <h2>Card Details</h2>
+        <div class="grid">
+          <div class="card"><div class="muted">Card Number</div><strong id="cardNumber"></strong></div>
+          <div class="card"><div class="muted">Card Status</div><strong id="cardStatus"></strong></div>
+          <div class="card"><div class="muted">Variant</div><strong id="cardVariant"></strong></div>
+          <div class="card"><div class="muted">Reward Points</div><strong id="rewardPoints"></strong></div>
+          <div class="card"><div class="muted">Available Limit</div><strong id="availableLimit"></strong></div>
+          <div class="card"><div class="muted">Total Limit</div><strong id="totalLimit"></strong></div>
+          <div class="card"><div class="muted">Due Amount</div><strong id="dueAmount"></strong></div>
+          <div class="card"><div class="muted">Due Date</div><strong id="dueDate"></strong></div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="card-status-panel">
+        <h2>Block / Unblock Card</h2>
+        <form id="cardBlockForm">
+          <label for="blockReason">Reason for Block</label>
+          <input id="blockReason" type="text" placeholder="Lost card / suspicious transaction etc." data-testid="block-reason-input" />
+          <div id="blockReasonError" class="error" data-testid="block-reason-error"></div>
+          <div class="actions">
+            <button type="submit" class="secondary" data-testid="block-card-button">Block Card</button>
+          </div>
+        </form>
+
+        <form id="cardUnblockForm">
+          <label for="unblockOtp">Unblock OTP (Demo: 123456)</label>
+          <input id="unblockOtp" type="text" maxlength="6" data-testid="unblock-otp-input" />
+          <div id="unblockOtpError" class="error" data-testid="unblock-otp-error"></div>
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="unblock-card-button">Unblock Card</button>
+          </div>
+        </form>
+        <div id="cardStatusMessage" class="message hidden" data-testid="card-status-message"></div>
+      </section>
+
+      <section class="panel" data-testid="credit-apply-panel">
+        <h2>Apply New Credit Card</h2>
+        <form id="applyCardForm">
+          <div class="row">
+            <div>
+              <label for="requestedCardType">Card Type</label>
+              <select id="requestedCardType" data-testid="apply-card-type"></select>
+              <div id="applyTypeError" class="error" data-testid="apply-card-type-error"></div>
+            </div>
+            <div>
+              <label for="monthlyIncome">Monthly Income</label>
+              <input id="monthlyIncome" type="number" data-testid="apply-income-input" />
+              <div id="applyIncomeError" class="error" data-testid="apply-income-error"></div>
+            </div>
+            <div>
+              <label for="employmentType">Employment Type</label>
+              <select id="employmentType" data-testid="apply-employment-select">
+                <option value="">Select</option>
+                <option>Salaried</option>
+                <option>Self Employed</option>
+                <option>Business Owner</option>
+              </select>
+              <div id="applyEmploymentError" class="error" data-testid="apply-employment-error"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="apply-card-submit">Apply New Credit Card</button>
+          </div>
+          <div id="applyCardMessage" class="message hidden" data-testid="apply-card-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="credit-upgrade-panel">
+        <h2>Upgrade Your Credit Card</h2>
+        <form id="upgradeCardForm">
+          <div class="row">
+            <div>
+              <label for="upgradeTarget">Target Variant</label>
+              <select id="upgradeTarget" data-testid="upgrade-target-select"></select>
+              <div id="upgradeError" class="error" data-testid="upgrade-target-error"></div>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="secondary" data-testid="upgrade-submit">Upgrade Your Credit Card</button>
+          </div>
+          <div id="upgradeMessage" class="message hidden" data-testid="upgrade-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="credit-statement-panel">
+        <h2>Last Statement</h2>
+        <div class="grid">
+          <div class="card"><div class="muted">Statement Month</div><strong id="statementMonth"></strong></div>
+          <div class="card"><div class="muted">Billing Period</div><strong id="billingPeriod"></strong></div>
+        </div>
+        <div class="actions">
+          <button id="downloadStatementBtn" class="secondary" type="button" data-testid="download-statement">Download Last Statement</button>
+        </div>
+        <div id="statementMessage" class="message hidden" data-testid="statement-message"></div>
+      </section>
+
+      <section class="panel" data-testid="credit-unbilled-panel">
+        <h2>Unbilled Transactions</h2>
+        <div class="actions">
+          <button id="refreshUnbilledBtn" type="button" class="secondary" data-testid="refresh-unbilled">Refresh</button>
+        </div>
+        <p><strong>Total Unbilled:</strong> <span id="unbilledTotal"></span></p>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Merchant</th>
+              <th>Category</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="unbilledBody"></tbody>
+        </table>
+      </section>
+
+      <section class="panel" data-testid="credit-controls-panel">
+        <h2>Card Controls</h2>
+        <form id="cardControlsForm">
+          <label><input type="checkbox" id="ctrlOnline" data-testid="ctrl-online" /> Online Transactions</label>
+          <label><input type="checkbox" id="ctrlContactless" data-testid="ctrl-contactless" /> Contactless Payments</label>
+          <label><input type="checkbox" id="ctrlInternational" data-testid="ctrl-international" /> International Usage</label>
+          <label><input type="checkbox" id="ctrlAtm" data-testid="ctrl-atm" /> ATM Cash Withdrawal</label>
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="save-controls">Save Card Controls</button>
+          </div>
+          <div id="controlsMessage" class="message hidden" data-testid="controls-message"></div>
+        </form>
+      </section>
+
+      <section class="panel" data-testid="credit-payment-panel">
+        <h2>Bill Payment Test Form</h2>
+        <form id="paymentForm">
+          <div class="row">
+            <div>
+              <label for="payAmount">Amount</label>
+              <input id="payAmount" type="number" data-testid="pay-amount-input" />
+              <div id="payAmountError" class="error" data-testid="pay-amount-error"></div>
+            </div>
+            <div>
+              <label for="paymentMode">Mode</label>
+              <select id="paymentMode" data-testid="payment-mode-select">
+                <option>UPI</option>
+                <option>Net Banking</option>
+                <option>Debit Card</option>
+              </select>
+            </div>
+            <div>
+              <label for="paymentSource">Debit From</label>
+              <select id="paymentSource" data-testid="payment-source-select">
+                <option>Savings Account</option>
+                <option>Current Account</option>
+              </select>
+            </div>
+          </div>
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="pay-submit">Pay</button>
+          </div>
+          <div id="paymentMessage" class="message hidden" data-testid="payment-message"></div>
+        </form>
+      </section>
+    </main>
+
+    <div id="offerPopup" class="offer-popup hidden" data-testid="offer-popup">
+      <div class="offer-popup-content">
+        <div class="row">
+          <h3 id="offerPopupTitle"></h3>
+          <button id="offerPopupClose" class="secondary" type="button" data-testid="offer-popup-close">Close</button>
+        </div>
+        <p id="offerPopupText"></p>
+        <a id="offerPopupCta" class="button primary" href="#" target="_blank" rel="noreferrer">Explore Offer</a>
+      </div>
+    </div>
+
+    <script src="/common.js"></script>
+    <script src="/credit-card.js"></script>
+  </body>
+</html>

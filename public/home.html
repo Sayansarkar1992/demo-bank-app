@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo Bank - Home</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 data-testid="home-title">Demo Bank App - Home</h1>
+      <small>Account summary and navigation</small>
+    </header>
+
+    <main>
+      <section class="panel" data-testid="offers-banner-panel">
+        <h2>Banking Offers and Promotions</h2>
+        <div id="offerBanner" class="grid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="row">
+          <div>
+            <span class="badge" data-testid="logged-user">Logged User: <span id="loggedUser"></span></span>
+          </div>
+          <div style="text-align: right">
+            <button id="logoutBtn" class="secondary" data-testid="logout-button">Logout</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="summary-panel">
+        <h2>Accounts Overview</h2>
+        <div class="grid" id="summaryGrid"></div>
+      </section>
+
+      <section class="panel" data-testid="customer-dashboard-panel">
+        <h2>Customer Dashboard</h2>
+        <div class="grid">
+          <div class="card"><div class="muted">KYC Status</div><strong id="kycStatus"></strong></div>
+          <div class="card"><div class="muted">Profile Completion</div><strong id="profileCompletion"></strong></div>
+          <div class="card"><div class="muted">Last Login</div><strong id="lastLogin"></strong></div>
+          <div class="card"><div class="muted">Unread Alerts</div><strong id="unreadCount"></strong></div>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="navigation-panel">
+        <h2>Navigate (opens in new tab)</h2>
+        <div class="nav-links">
+          <a href="/savings-account.html" target="_blank" rel="noreferrer" data-testid="open-savings">Savings Account</a>
+          <a href="/loan.html" target="_blank" rel="noreferrer" data-testid="open-loan">Apply for New Loan</a>
+          <a href="/current-account.html" target="_blank" rel="noreferrer" data-testid="open-current">Current Account</a>
+          <a href="/credit-card.html" target="_blank" rel="noreferrer" data-testid="open-credit">Credit Card</a>
+          <a href="/api-docs" target="_blank" rel="noreferrer" data-testid="open-swagger">Swagger API Docs</a>
+        </div>
+      </section>
+
+      <section class="panel" data-testid="notifications-panel">
+        <h2>Notifications Center</h2>
+        <div class="actions">
+          <button id="refreshNotificationsBtn" class="secondary" type="button" data-testid="refresh-notifications">Refresh Notifications</button>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="notificationsBody"></tbody>
+        </table>
+      </section>
+
+      <section class="panel" data-testid="service-requests-panel">
+        <h2>Service Requests</h2>
+        <form id="serviceRequestForm">
+          <div class="row">
+            <div>
+              <label for="srCategory">Category</label>
+              <select id="srCategory" data-testid="sr-category">
+                <option value="">Select</option>
+                <option>Credit Card</option>
+                <option>Debit Card</option>
+                <option>Net Banking</option>
+                <option>UPI</option>
+                <option>Loans</option>
+                <option>KYC</option>
+              </select>
+              <div id="srCategoryError" class="error" data-testid="sr-category-error"></div>
+            </div>
+            <div>
+              <label for="srPriority">Priority</label>
+              <select id="srPriority" data-testid="sr-priority">
+                <option>LOW</option>
+                <option selected>NORMAL</option>
+                <option>HIGH</option>
+              </select>
+            </div>
+          </div>
+          <label for="srSubject">Subject</label>
+          <input id="srSubject" type="text" data-testid="sr-subject" />
+          <div id="srSubjectError" class="error" data-testid="sr-subject-error"></div>
+
+          <label for="srDescription">Description</label>
+          <textarea id="srDescription" rows="3" data-testid="sr-description"></textarea>
+          <div id="srDescriptionError" class="error" data-testid="sr-description-error"></div>
+
+          <div class="actions">
+            <button type="submit" class="primary" data-testid="submit-service-request">Submit Request</button>
+            <button id="refreshServiceRequestsBtn" type="button" class="secondary" data-testid="refresh-service-requests">Refresh Requests</button>
+          </div>
+          <div id="srMessage" class="message hidden" data-testid="service-request-message"></div>
+        </form>
+
+        <h3>Existing Requests</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Category</th>
+              <th>Subject</th>
+              <th>Priority</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="serviceRequestsBody"></tbody>
+        </table>
+      </section>
+
+      <section class="panel" data-testid="extra-automation-panel">
+        <h2>Extra Automation Hooks</h2>
+        <p class="muted">These controls are intentionally added for automation scripts.</p>
+        <div class="actions">
+          <button id="delayedBtn" class="secondary" data-testid="delayed-button">Load Delayed Element (2s)</button>
+          <button id="toggleHiddenBtn" class="secondary" data-testid="toggle-hidden-button">Toggle Hidden Element</button>
+        </div>
+        <div id="delayedTarget" class="message hidden" data-testid="delayed-target"></div>
+        <div id="hiddenElement" class="card hidden" data-testid="hidden-element">I was hidden. Use toggle for visibility tests.</div>
+      </section>
+    </main>
+
+    <div id="offerPopup" class="offer-popup hidden" data-testid="offer-popup">
+      <div class="offer-popup-content">
+        <div class="row">
+          <h3 id="offerPopupTitle"></h3>
+          <button id="offerPopupClose" class="secondary" type="button" data-testid="offer-popup-close">Close</button>
+        </div>
+        <p id="offerPopupText"></p>
+        <a id="offerPopupCta" class="button primary" href="#" target="_blank" rel="noreferrer">Explore Offer</a>
+      </div>
+    </div>
+
+    <script src="/common.js"></script>
+    <script src="/home.js"></script>
+  </body>
+</html>
